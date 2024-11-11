@@ -5,8 +5,17 @@ type FocusedFields = {
   [key: string]: boolean;
 };
 
+const formFields = [
+  { type: "text", label: "Full Name" },
+  { type: "email", label: "Email ID" },
+  { type: "number", label: "Phone Number" },
+  { type: "number", label: "Years of Experience" },
+];
+
 const Form: React.FC = () => {
   const [focused, setFocused] = useState<FocusedFields>({});
+  const [selected, setSelected] = useState<string | null>(null);
+  const [file, setFile] = useState<FileList | null>(null);
 
   const handleFocus = (field: string) => {
     setFocused({ ...focused, [field]: true });
@@ -26,67 +35,88 @@ const Form: React.FC = () => {
           <span className="text-[#80D3FF]"> CV</span> dekhle?
         </h1>
         <form>
-          <div className="flex justify-between gap-2 mb-6">
+          <div className="grid grid-cols-4 md:grid max-md:grid-cols-2 justify-between gap-2 mb-6">
             {[
-              "Event",
-              "Website",
-              "Social Media",
-              "Content Creation",
-              "Other",
+              "Front-end Developer",
+              "Sales and BD Intern",
+              "Content Writer",
+              "Ui intern",
             ].map((option) => (
               <button
                 key={option}
                 type="button"
-                className="bg-gray-700 py-2 px-4 rounded-lg hover:bg-gray-600 transition"
+                onClick={() => {
+                  setSelected(option);
+                  if (selected === option) {
+                    setSelected(null);
+                  }
+                }}
+                className={` ${
+                  selected === option ? "bg-gray-400 text-white" : ""
+                } bg-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition`}
               >
                 {option}
               </button>
             ))}
           </div>
-
-          {[
-            "Full Name",
-            "Email ID",
-            "Phone Number",
-            "Company/Project Name",
-          ].map((label) => (
-            <div key={label} className="relative mb-6">
-              <input
-                type="text"
-                onFocus={() => handleFocus(label)}
-                onBlur={(e) => handleBlur(label, e.target.value)}
-                className="w-full bg-gray-700 text-white py-3 px-4 rounded-md outline-none border border-transparent focus:border-blue-500 transition"
-              />
-              <label
-                className={`absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
-                  focused[label] ? "-top-3 text-xs text-blue-500" : ""
-                }`}
-              >
-                {label}*
-              </label>
-            </div>
-          ))}
-
+          <div className="grid gap-x-10 gap-y-4 py-5 grid-cols-1 md:grid-cols-2">
+            {[
+              "Full Name",
+              "Email ID",
+              "Phone Number",
+              "Company/Project Name",
+            ].map((label) => (
+              <div key={label} className="relative  mb-6">
+                <input
+                  type={`${
+                    label === "Phone Number"
+                      ? "number"
+                      : label === "Email ID"
+                      ? "email"
+                      : "text"
+                  }}`}
+                  onFocus={() => handleFocus(label)}
+                  onBlur={(e) => handleBlur(label, e.target.value)}
+                  className="w-full bg-gray-900 rounded-none  text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0  border-[#80D3FF]  transition"
+                />
+                <label
+                  className={`absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
+                    focused[label]
+                      ? "-translate-y-10 left-0 text-sm text-[#80D3FF]"
+                      : ""
+                  }`}
+                >
+                  {label}*
+                </label>
+              </div>
+            ))}
+          </div>
           <div className="mb-6">
-            <label className="block mb-2">What's Your Budget?</label>
-            <input type="range" min="0" max="100000" className="w-full" />
-            <div className="flex justify-between text-sm mt-2">
-              <span>0</span>
-              <span>Ambani</span>
-            </div>
+            <input
+              type="file"
+              name="CV file"
+              id="CB"
+              className={`${File[0] ? "block" : "hidden"}`}
+              onChange={(e) => {
+                setFile([e.target.files]);
+              }}
+            />
+            <label htmlFor="CB" className="text-[#80D3FF]">
+              Upload Your CV
+            </label>
           </div>
 
           <div className="mb-6">
             <textarea
-              placeholder="Tell Us About Your Project!"
+              placeholder="Tell Us About Your Experience!"
               rows={4}
-              className="w-full bg-gray-700 text-white py-3 px-4 rounded-md outline-none border border-transparent focus:border-blue-500 transition"
+              className="w-full bg-gray-700 text-white py-3 px-4 rounded-md outline-none border border-transparent focus:border-[#80D3FF] transition"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-500 py-3 rounded-lg text-white font-semibold hover:bg-blue-600 transition"
+            className="w-full bg-[#80D3FF] py-3 rounded-lg text-white font-semibold hover:bg-[#80D3FF] transition"
           >
             SUBMIT
           </button>
