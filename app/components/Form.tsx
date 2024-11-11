@@ -15,7 +15,7 @@ const formFields = [
 const Form: React.FC = () => {
   const [focused, setFocused] = useState<FocusedFields>({});
   const [selected, setSelected] = useState<string | null>(null);
-  const [file, setFile] = useState<FileList | null>(null);
+  const [CV, setCV] = useState<File | null>(null);
 
   const handleFocus = (field: string) => {
     setFocused({ ...focused, [field]: true });
@@ -96,9 +96,9 @@ const Form: React.FC = () => {
               type="file"
               name="CV file"
               id="CB"
-              className={`${File[0] ? "block" : "hidden"}`}
+              className={`${CV ? "block" : "hidden"}`}
               onChange={(e) => {
-                setFile([e.target.files]);
+                setCV(e.target.files[0]);
               }}
             />
             <label htmlFor="CB" className="text-[#80D3FF]">
