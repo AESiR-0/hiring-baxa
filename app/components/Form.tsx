@@ -16,10 +16,10 @@ type FormData = {
 };
 
 const formFields = [
-  { type: "text", name: "name", label: "Full Name" },
-  { type: "email", name: "name", label: "Email" },
-  { type: "tel", label: "Mobile" },
-  { type: "number", label: "Years of Experience" },
+  { type: "text", name: "fullName", label: "Full Name" },
+  { type: "email", name: "email", label: "Email" },
+  { type: "tel", name: "phoneNumber", label: "Mobile" },
+  { type: "number", name: "experience", label: "Years of Experience" },
 ];
 
 const Form: React.FC = () => {
@@ -64,20 +64,19 @@ const Form: React.FC = () => {
       jobTitle,
       aboutExperience,
     } = formData;
-    // Create an object to send to the Sheets API or any backend
+
     const dataToSend = {
       fullName,
       email,
       phoneNumber,
       experience,
       jobTitle,
-      CV, // This would likely be uploaded as a file and the URL sent here
+      CV,
       aboutExperience,
     };
 
-    // Here, you would call the Sheets API or your backend
     try {
-      const response = await fetch("/your-api-endpoint", {
+      const response = await fetch("/api/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,15 +108,12 @@ const Form: React.FC = () => {
               "Front-end Developer",
               "Sales and BD Intern",
               "Content Writer",
-              "Ui intern",
+              "UI Intern",
             ].map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => {
-                  if (selected === formData.jobTitle) {
-                    setSelected(null);
-                  }
                   setSelected(option);
                   setFormData((prev) => ({
                     ...prev,
@@ -138,16 +134,16 @@ const Form: React.FC = () => {
                 <input
                   required
                   type={field.type}
-                  name={field.label.toLowerCase().replace(" ", "")}
-                  value={formData[name]}
-                  onFocus={() => handleFocus(field.label)}
-                  onBlur={(e) => handleBlur(field.label, e.target.value)}
+                  name={field.name}
+                  value={formData[field.name as keyof FormData] || ""}
+                  onFocus={() => handleFocus(field.name)}
+                  onBlur={(e) => handleBlur(field.name, e.target.value)}
                   onChange={handleChange}
                   className="w-full bg-gray-900 rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition"
                 />
                 <label
                   className={`absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
-                    focused[field.label]
+                    focused[field.name]
                       ? "-translate-y-10 left-0 text-sm text-[#80D3FF]"
                       : ""
                   }`}
