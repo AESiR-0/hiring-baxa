@@ -12,6 +12,7 @@ type FormData = {
   experience: number;
   jobTitle: string | null;
   aboutExperience: string;
+  cv: string;
 };
 
 const formFields = [
@@ -32,6 +33,7 @@ const Form: React.FC = () => {
     experience: 0,
     jobTitle: null,
     aboutExperience: "",
+    cv: "",
   });
 
   const handleFocus = (field: string) => {
@@ -61,6 +63,7 @@ const Form: React.FC = () => {
       experience,
       jobTitle,
       aboutExperience,
+      cv,
     } = formData;
 
     const dataToSend = {
@@ -70,6 +73,7 @@ const Form: React.FC = () => {
       experience,
       jobTitle,
       aboutExperience,
+      cv
     };
 
     try {
@@ -95,10 +99,11 @@ const Form: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white px-4">
       <div className="w-full max-w-4xl p-8 rounded-lg shadow-lg">
-        <h1 className="text-6xl font-bold mb-6 pr-32">
-          <span className="text-[#80D3FF]">Salary</span> kitni loge usse pehele
-          <span className="text-[#80D3FF]"> CV</span> dekhle?
-        </h1>
+        <div className="text-6xl w-full max-md:text-3xl max-md:mb-5  max-md:items-start max-md:justify-start max-md:m-0 max-md:p-0  font-bold md:mb-6 md:pr-32">
+          <span className="text-[#80D3FF] ">Salary </span>{" "}
+          <span>kitni loge usse pehele</span>
+          <span className="text-[#80D3FF]"> CV</span> <span>dekhle?</span>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-4 md:grid max-md:grid-cols-2 justify-between gap-2 mb-6">
             {[
@@ -111,15 +116,19 @@ const Form: React.FC = () => {
                 key={option}
                 type="button"
                 onClick={() => {
-                  setSelected(option);
+                  // Toggle the jobTitle in the form data and set the selected option
+                  const newJobTitle = selected === option ? null : option;
+                  setSelected(newJobTitle);
                   setFormData((prev) => ({
                     ...prev,
-                    jobTitle: prev.jobTitle === option ? null : option,
+                    jobTitle: newJobTitle, // Update jobTitle directly based on new selected option
                   }));
                 }}
-                className={`${
-                  selected === option ? "bg-gray-400 text-white" : ""
-                } bg-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition`}
+                className={`hover:bg-gray-500 ${
+                  formData.jobTitle === option
+                    ? "bg-gray-400 text-white"
+                    : "bg-gray-700 text-white"
+                } py-2 px-4 rounded-lg transition`}
               >
                 {option}
               </button>
@@ -151,22 +160,27 @@ const Form: React.FC = () => {
             ))}
           </div>
 
-          {/* <div className="mb-6 flex w-full flex-row-reverse gap-5 justify-end">
+          <div className="mb-6 flex relative w-full flex-row-reverse gap-5 justify-end">
             <input
-              type="file"
-              name="CV"
-              id="CB"
-              className={`customfile ${CV ? "block" : "hidden"}`}
-              onChange={(e) => {
-                const file = e.target.files ? e.target.files[0] : null;
-                setCV(file);
-                setFormData((prev) => ({ ...prev, CV: file }));
-              }}
-            /> 
-            <label htmlFor="CB" className="text-lg font-normal text-[#80D3FF]">
-              Upload Your CV
+              required
+              type="text"
+              name="cv"
+              value={formData["cv"] || ""}
+              onFocus={() => handleFocus("cv")}
+              onBlur={(e) => handleBlur("cv", e.target.value)}
+              onChange={handleChange}
+              className={`w-full bg-gray-900 rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition`}
+            />
+            <label
+              className={`absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
+                focused["cv"]
+                  ? "-translate-y-10 left-0 text-sm text-[#80D3FF]"
+                  : ""
+              }`}
+            >
+              CV Link*
             </label>
-          </div> */}
+          </div>
 
           <div className="mb-6">
             <textarea

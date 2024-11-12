@@ -7,6 +7,7 @@ type FormData = {
   experience: number;
   jobTitle: string | null;
   aboutExperience: string;
+  cv: string;
 };
 
 export default async function postData(values: FormData) {
@@ -16,6 +17,7 @@ export default async function postData(values: FormData) {
     phoneNumber,
     experience,
     jobTitle,
+    cv,
     aboutExperience,
   } = values;
 
