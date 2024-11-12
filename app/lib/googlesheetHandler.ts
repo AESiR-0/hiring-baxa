@@ -29,7 +29,7 @@ export default async function postData(values: FormData) {
   });
 
   const sheets = google.sheets({ version: "v4", auth });
-  const spreadsheetId = process.env.SHEET_ID;
+  const spreadsheetId = "1Ie0XlmrEWgx3hOYH3laNC-P0zb_Fk7NVBJ5CnnEX77E";
 
   try {
     const response = await sheets.spreadsheets.values.append({
