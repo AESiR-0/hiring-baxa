@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+
 type FormData = {
   fullName: string;
   email: string;
@@ -18,6 +19,7 @@ export default async function postData(values: FormData) {
     aboutExperience,
   } = values;
 
+  // Auth setup
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email:
@@ -28,25 +30,24 @@ export default async function postData(values: FormData) {
           "\n"
         ),
     },
-    scopes: [
-      "https://www.googleapis.com/auth/spreadsheets",
-      "https://www.googleapis.com/auth/drive",
-      "https://www.googleapis.com/auth/drive.file",
-    ],
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
-  const spreadsheetId = "1Ie0XlmrEWgx3hOYH3laNC-P0zb_Fk7NVBJ5CnnEX77E";
+
   const sheets = google.sheets({ version: "v4", auth });
+  const spreadsheetId = "1Ie0XlmrEWgx3hOYH3laNC-P0zb_Fk7NVBJ5CnnEX77E";
 
   try {
-    await sheets.spreadsheets.values.append({
+    const response = await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "Sheet1!A1:F1", // Adjust the sheet and range as needed
+      range: "Sheet1!A1:F1", // Update the sheet name and range if necessary
+      valueInputOption: "RAW",
       requestBody: {
         values: [
           [fullName, email, phoneNumber, experience, jobTitle, aboutExperience],
         ],
       },
     });
+    console.log("Data successfully appended:", response.data);
     return "Data successfully added to Google Sheet";
   } catch (error) {
     console.error("Error appending data to Google Sheets:", error);
