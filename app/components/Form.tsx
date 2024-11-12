@@ -11,7 +11,6 @@ type FormData = {
   phoneNumber: string;
   experience: number;
   jobTitle: string | null;
-  CV: File | null;
   aboutExperience: string;
 };
 
@@ -32,7 +31,6 @@ const Form: React.FC = () => {
     phoneNumber: "",
     experience: 0,
     jobTitle: null,
-    CV: null,
     aboutExperience: "",
   });
 
@@ -71,7 +69,6 @@ const Form: React.FC = () => {
       phoneNumber,
       experience,
       jobTitle,
-      CV,
       aboutExperience,
     };
 
@@ -154,7 +151,7 @@ const Form: React.FC = () => {
             ))}
           </div>
 
-          <div className="mb-6 flex w-full flex-row-reverse gap-5 justify-end">
+          {/* <div className="mb-6 flex w-full flex-row-reverse gap-5 justify-end">
             <input
               type="file"
               name="CV"
@@ -165,11 +162,11 @@ const Form: React.FC = () => {
                 setCV(file);
                 setFormData((prev) => ({ ...prev, CV: file }));
               }}
-            />
+            /> 
             <label htmlFor="CB" className="text-lg font-normal text-[#80D3FF]">
               Upload Your CV
             </label>
-          </div>
+          </div> */}
 
           <div className="mb-6">
             <textarea

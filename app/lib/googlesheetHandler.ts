@@ -5,7 +5,6 @@ type FormData = {
   phoneNumber: string;
   experience: number;
   jobTitle: string | null;
-  CV: File | null;
   aboutExperience: string;
 };
 
