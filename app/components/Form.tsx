@@ -29,7 +29,7 @@ const formFields = [
 const Form: React.FC = () => {
   const [focused, setFocused] = useState<FocusedFields>({});
   const [selected, setSelected] = useState<string | null>(null);
-  const [CV, setCV] = useState<File | null>(null);
+  const [fieldsRequired, setFieldsRequired] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -84,25 +84,44 @@ const Form: React.FC = () => {
       cv,
     };
 
-    try {
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataToSend),
-      });
-      if (response.ok) {
-        alert("Form submitted successfully!");
-        setIsSubmitting(false);
-      } else {
-        alert("Failed to submit form. Please try again.");
+    if (
+      !fullName ||
+      !email ||
+      !phoneNumber ||
+      !experience ||
+      !jobTitle ||
+      jobTitle === "" ||
+      jobTitle === " " ||
+      !aboutExperience ||
+      !cv
+    ) {
+      alert("Please fill all the fields required");
+      setFieldsRequired(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (fieldsRequired) {
+      try {
+        const response = await fetch("/api/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataToSend),
+        });
+        if (response.ok) {
+          alert("Form submitted successfully!");
+          setIsSubmitting(false);
+        } else {
+          alert("Failed to submit form. Please try again.");
+          setIsSubmitting(false);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("Error submitting form. Please try again.");
         setIsSubmitting(false);
       }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Error submitting form. Please try again.");
-      setIsSubmitting(false);
     }
   };
 
