@@ -7,7 +7,9 @@ type FormData = {
   experience: number;
   jobTitle: string | null;
   aboutExperience: string;
-  cv: string; playlist: string; favComic:string;
+  cv: string;
+  playlist: string;
+  favComic: string;
 };
 
 export default async function postData(values: FormData) {
@@ -17,7 +19,9 @@ export default async function postData(values: FormData) {
     phoneNumber,
     experience,
     jobTitle,
+    playlist,
     cv,
+    favComic,
     aboutExperience,
   } = values;
 
@@ -40,7 +44,17 @@ export default async function postData(values: FormData) {
       valueInputOption: "RAW",
       requestBody: {
         values: [
-          [fullName, email, phoneNumber, experience, jobTitle, aboutExperience],
+          [
+            fullName,
+            email,
+            phoneNumber,
+            experience,
+            jobTitle,
+            aboutExperience,
+            cv,
+            favComic,
+            playlist,
+          ],
         ],
       },
     });

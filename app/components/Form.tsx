@@ -41,6 +41,7 @@ const Form: React.FC = () => {
     playlist: "",
     favComic: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFocus = (field: string) => {
     setFocused({ ...focused, [field]: true });
@@ -61,6 +62,7 @@ const Form: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const {
       fullName,
@@ -90,15 +92,17 @@ const Form: React.FC = () => {
         },
         body: JSON.stringify(dataToSend),
       });
-
       if (response.ok) {
         alert("Form submitted successfully!");
+        setIsSubmitting(false);
       } else {
         alert("Failed to submit form. Please try again.");
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Error submitting form. Please try again.");
+      setIsSubmitting(false);
     }
   };
 
@@ -201,7 +205,8 @@ const Form: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full bg-[#80D3FF] py-3 rounded-xl text-white font-semibold hover:bg-[#80D3FF] transition"
+            disabled={isSubmitting}
+            className="w-full hover:border-white hover:border hover:bg-transparent bg-[#80D3FF] py-3 rounded-xl text-white font-semibold hover:bg-[#80D3FF] transition"
           >
             SUBMIT
           </button>
