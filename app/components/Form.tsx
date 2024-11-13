@@ -225,7 +225,7 @@ const Form: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full hover:border-white hover:border hover:bg-transparent bg-[#80D3FF] py-3 rounded-xl text-white font-semibold hover:bg-[#80D3FF] transition"
+            className="w-full disabled:bg-[#aedbf3] disabled:opacity-75 hover:border-white hover:border hover:bg-transparent bg-[#80D3FF] py-3 rounded-xl text-white font-semibold hover:bg-[#80D3FF] transition"
           >
             SUBMIT
           </button>
