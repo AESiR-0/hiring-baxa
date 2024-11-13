@@ -11,15 +11,15 @@ type FormData = {
   phoneNumber: string;
   experience: number;
   jobTitle: string | null;
-  CV: File | null;
   aboutExperience: string;
+  cv: string;
 };
 
 const formFields = [
-  { type: "text", name: "name", label: "Full Name" },
-  { type: "email", name: "name", label: "Email" },
-  { type: "tel", label: "Mobile" },
-  { type: "number", label: "Years of Experience" },
+  { type: "text", name: "fullName", label: "Full Name" },
+  { type: "email", name: "email", label: "Email" },
+  { type: "tel", name: "phoneNumber", label: "Mobile" },
+  { type: "number", name: "experience", label: "Years of Experience" },
 ];
 
 const Form: React.FC = () => {
@@ -32,8 +32,8 @@ const Form: React.FC = () => {
     phoneNumber: "",
     experience: 0,
     jobTitle: null,
-    CV: null,
     aboutExperience: "",
+    cv: "",
   });
 
   const handleFocus = (field: string) => {
@@ -63,21 +63,21 @@ const Form: React.FC = () => {
       experience,
       jobTitle,
       aboutExperience,
+      cv,
     } = formData;
-    // Create an object to send to the Sheets API or any backend
+
     const dataToSend = {
       fullName,
       email,
       phoneNumber,
       experience,
       jobTitle,
-      CV, // This would likely be uploaded as a file and the URL sent here
       aboutExperience,
+      cv,
     };
 
-    // Here, you would call the Sheets API or your backend
     try {
-      const response = await fetch("/your-api-endpoint", {
+      const response = await fetch("/api/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,36 +97,38 @@ const Form: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white px-4">
+    <div className="min-h-screen bg-[#0E0D0D] flex items-center justify-center text-white px-4">
       <div className="w-full max-w-4xl p-8 rounded-lg shadow-lg">
-        <h1 className="text-6xl font-bold mb-6 pr-32">
-          <span className="text-[#80D3FF]">Salary</span> kitni loge usse pehele
-          <span className="text-[#80D3FF]"> CV</span> dekhle?
-        </h1>
+        <div className="text-6xl w-full max-md:text-3xl max-md:mb-5  max-md:items-start max-md:justify-start max-md:m-0 max-md:p-0  font-bold md:mb-6 md:pr-32">
+          <span className="text-[#80D3FF] ">Salary </span>{" "}
+          <span>kitni loge usse pehele</span>
+          <span className="text-[#80D3FF]"> CV</span> <span>dekhle?</span>
+        </div>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-4 md:grid max-md:grid-cols-2 justify-between gap-2 mb-6">
+          <div className="grid grid-cols-4 md:grid max-md:grid-cols-2 justify-between gap-10 mb-6">
             {[
               "Front-end Developer",
               "Sales and BD Intern",
               "Content Writer",
-              "Ui intern",
+              "UI Intern",
             ].map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => {
-                  if (selected === formData.jobTitle) {
-                    setSelected(null);
-                  }
-                  setSelected(option);
+                  // Toggle the jobTitle in the form data and set the selected option
+                  const newJobTitle = selected === option ? null : option;
+                  setSelected(newJobTitle);
                   setFormData((prev) => ({
                     ...prev,
-                    jobTitle: prev.jobTitle === option ? null : option,
+                    jobTitle: newJobTitle, // Update jobTitle directly based on new selected option
                   }));
                 }}
-                className={`${
-                  selected === option ? "bg-gray-400 text-white" : ""
-                } bg-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition`}
+                className={`hover:bg-[#80D3FF] ${
+                  formData.jobTitle === option
+                    ? "bg-[#80D3FF] border border-[#80D3FF]"
+                    : "border border-white bg-transparent "
+                } py-2 px-2 rounded-3xl transition`}
               >
                 {option}
               </button>
@@ -138,16 +140,16 @@ const Form: React.FC = () => {
                 <input
                   required
                   type={field.type}
-                  name={field.label.toLowerCase().replace(" ", "")}
-                  value={formData[name]}
-                  onFocus={() => handleFocus(field.label)}
-                  onBlur={(e) => handleBlur(field.label, e.target.value)}
+                  name={field.name}
+                  value={formData[field.name as keyof FormData] || ""}
+                  onFocus={() => handleFocus(field.name)}
+                  onBlur={(e) => handleBlur(field.name, e.target.value)}
                   onChange={handleChange}
-                  className="w-full bg-gray-900 rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition"
+                  className="w-full bg-[#0E0D0D] rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition"
                 />
                 <label
                   className={`absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
-                    focused[field.label]
+                    focused[field.name]
                       ? "-translate-y-10 left-0 text-sm text-[#80D3FF]"
                       : ""
                   }`}
@@ -158,20 +160,25 @@ const Form: React.FC = () => {
             ))}
           </div>
 
-          <div className="mb-6 flex w-full flex-row-reverse gap-5 justify-end">
+          <div className="mb-6 flex relative w-full flex-row-reverse gap-5 justify-end">
             <input
-              type="file"
-              name="CV"
-              id="CB"
-              className={`customfile ${CV ? "block" : "hidden"}`}
-              onChange={(e) => {
-                const file = e.target.files ? e.target.files[0] : null;
-                setCV(file);
-                setFormData((prev) => ({ ...prev, CV: file }));
-              }}
+              required
+              type="text"
+              name="cv"
+              value={formData["cv"] || ""}
+              onFocus={() => handleFocus("cv")}
+              onBlur={(e) => handleBlur("cv", e.target.value)}
+              onChange={handleChange}
+              className={`w-full bg-[#0E0D0D] rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition`}
             />
-            <label htmlFor="CB" className="text-lg font-normal text-[#80D3FF]">
-              Upload Your CV
+            <label
+              className={`absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
+                focused["cv"]
+                  ? "-translate-y-10 left-0 text-sm text-[#80D3FF]"
+                  : ""
+              }`}
+            >
+              CV Link*
             </label>
           </div>
 
@@ -182,13 +189,13 @@ const Form: React.FC = () => {
               rows={4}
               value={formData.aboutExperience}
               onChange={handleChange}
-              className="w-full bg-gray-700 text-white py-3 px-4 rounded-md outline-none border border-transparent focus:border-[#80D3FF] transition"
+              className="w-full bg-[#0E0D0D] border-b-[#80D3FF] text-white py-3 px-4 rounded-md outline-none border border-transparent focus:border-[#80D3FF] transition"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#80D3FF] py-3 rounded-lg text-white font-semibold hover:bg-[#80D3FF] transition"
+            className="w-full bg-[#80D3FF] py-3 rounded-xl text-white font-semibold hover:bg-[#80D3FF] transition"
           >
             SUBMIT
           </button>
