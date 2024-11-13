@@ -40,7 +40,7 @@ export default async function postData(values: FormData) {
   try {
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "Sheet1!A1:F1", // Update the sheet name and range if necessary
+      range: "Sheet1!A1:J1", // Update the sheet name and range if necessary
       valueInputOption: "RAW",
       requestBody: {
         values: [
