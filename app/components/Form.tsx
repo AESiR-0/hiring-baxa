@@ -63,7 +63,8 @@ const Form: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    console.log(1);
+    setFieldsRequired(false);
     const {
       fullName,
       email,
@@ -73,19 +74,6 @@ const Form: React.FC = () => {
       aboutExperience,
       cv,
     } = formData;
-
-    const dataToSend = {
-      fullName,
-      email,
-      phoneNumber,
-      experience,
-      jobTitle,
-      aboutExperience,
-      cv,
-    };
-    console.log("==================got here 1==================");
-    console.log(dataToSend);
-    console.log("====================================");
     if (
       !fullName ||
       !email ||
@@ -100,16 +88,21 @@ const Form: React.FC = () => {
       alert("Please fill all the fields required");
       setFieldsRequired(true);
       setIsSubmitting(false);
-      console.log("==================got here 1==================");
-      console.log(dataToSend);
-      console.log("====================================");
+
       return;
     }
 
-    if (fieldsRequired) {
-      console.log("==================got here 1==================");
-      console.log(dataToSend);
-      console.log("====================================");
+    const dataToSend = {
+      fullName,
+      email,
+      phoneNumber,
+      experience,
+      jobTitle,
+      aboutExperience,
+      cv,
+    };
+
+    if (!fieldsRequired) {
       try {
         const response = await fetch("/api/submit", {
           method: "POST",
