@@ -73,6 +73,8 @@ const Form: React.FC = () => {
       jobTitle,
       aboutExperience,
       cv,
+      favComic,
+      playlist,
     } = formData;
     if (
       !fullName ||
@@ -100,6 +102,8 @@ const Form: React.FC = () => {
       jobTitle,
       aboutExperience,
       cv,
+      favComic,
+      playlist,
     };
 
     if (!fieldsRequired) {
