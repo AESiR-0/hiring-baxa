@@ -7,7 +7,7 @@ type FormData = {
   experience: number;
   jobTitle: string | null;
   aboutExperience: string;
-  cv: string;
+  cv: string; playlist: string; favComic:string;
 };
 
 export default async function postData(values: FormData) {

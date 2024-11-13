@@ -13,6 +13,8 @@ type FormData = {
   jobTitle: string | null;
   aboutExperience: string;
   cv: string;
+  playlist: string;
+  favComic: string;
 };
 
 const formFields = [
@@ -20,6 +22,8 @@ const formFields = [
   { type: "email", name: "email", label: "Email" },
   { type: "tel", name: "phoneNumber", label: "Mobile" },
   { type: "number", name: "experience", label: "Years of Experience" },
+  { type: "text", name: "playlist", label: "Playlist Link" },
+  { type: "text", name: "favComic", label: "Favourite Standup Comic" },
 ];
 
 const Form: React.FC = () => {
@@ -34,6 +38,8 @@ const Form: React.FC = () => {
     jobTitle: null,
     aboutExperience: "",
     cv: "",
+    playlist: "",
+    favComic: "",
   });
 
   const handleFocus = (field: string) => {
