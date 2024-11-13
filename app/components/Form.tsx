@@ -83,7 +83,9 @@ const Form: React.FC = () => {
       aboutExperience,
       cv,
     };
-
+    console.log("==================got here 1==================");
+    console.log(dataToSend);
+    console.log("====================================");
     if (
       !fullName ||
       !email ||
@@ -98,10 +100,16 @@ const Form: React.FC = () => {
       alert("Please fill all the fields required");
       setFieldsRequired(true);
       setIsSubmitting(false);
+      console.log("==================got here 1==================");
+      console.log(dataToSend);
+      console.log("====================================");
       return;
     }
 
     if (fieldsRequired) {
+      console.log("==================got here 1==================");
+      console.log(dataToSend);
+      console.log("====================================");
       try {
         const response = await fetch("/api/submit", {
           method: "POST",
@@ -110,6 +118,9 @@ const Form: React.FC = () => {
           },
           body: JSON.stringify(dataToSend),
         });
+        console.log("==================got here 1==================");
+        console.log(dataToSend);
+        console.log("====================================");
         if (response.ok) {
           alert("Form submitted successfully!");
           setIsSubmitting(false);
