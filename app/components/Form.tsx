@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 type FocusedFields = {
   [key: string]: boolean;
@@ -28,6 +29,7 @@ const formFields = [
 
 const Form: React.FC = () => {
   const [focused, setFocused] = useState<FocusedFields>({});
+  const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
   const [fieldsRequired, setFieldsRequired] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
@@ -121,6 +123,7 @@ const Form: React.FC = () => {
         if (response.ok) {
           alert("Form submitted successfully!");
           setIsSubmitting(false);
+          router.reload();
         } else {
           alert("Failed to submit form. Please try again.");
           setIsSubmitting(false);
