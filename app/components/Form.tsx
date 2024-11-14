@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import Modal from "./Modal";
 
 type FocusedFields = {
   [key: string]: boolean;
@@ -29,7 +29,6 @@ const formFields = [
 
 const Form: React.FC = () => {
   const [focused, setFocused] = useState<FocusedFields>({});
-  const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
   const [fieldsRequired, setFieldsRequired] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
@@ -44,6 +43,7 @@ const Form: React.FC = () => {
     favComic: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleFocus = (field: string) => {
     setFocused({ ...focused, [field]: true });
@@ -121,9 +121,19 @@ const Form: React.FC = () => {
         console.log(dataToSend);
         console.log("====================================");
         if (response.ok) {
-          alert("Form submitted successfully!");
+          setIsModalOpen(true); // Open modal upon success
           setIsSubmitting(false);
-          router.reload();
+          setFormData({
+            fullName: "",
+            email: "",
+            phoneNumber: "",
+            experience: 0,
+            jobTitle: null,
+            aboutExperience: "",
+            cv: "",
+            playlist: "",
+            favComic: "",
+          });
         } else {
           alert("Failed to submit form. Please try again.");
           setIsSubmitting(false);
@@ -134,6 +144,9 @@ const Form: React.FC = () => {
         setIsSubmitting(false);
       }
     }
+  };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -241,6 +254,7 @@ const Form: React.FC = () => {
             SUBMIT
           </button>
         </form>
+        <Modal isOpen={isModalOpen} onClose={handleModalClose} />
       </div>
     </div>
   );
