@@ -21,7 +21,7 @@ type FormData = {
 const formFields = [
   { type: "text", name: "fullName", label: "Full Name" },
   { type: "email", name: "email", label: "Email" },
-  { type: "tel", name: "phoneNumber", label: "Mobile" },
+  { type: "tel", name: "phoneNumber", label: "Whatsapp Number" },
   { type: "number", name: "experience", label: "Years of Experience" },
   { type: "text", name: "playlist", label: "Playlist Link" },
   { type: "text", name: "favComic", label: "Favourite Standup Comic" },
