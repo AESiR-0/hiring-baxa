@@ -117,9 +117,7 @@ const Form: React.FC = () => {
           },
           body: JSON.stringify(dataToSend),
         });
-        console.log("==================got here 1==================");
-        console.log(dataToSend);
-        console.log("====================================");
+
         if (response.ok) {
           setIsModalOpen(true); // Open modal upon success
           setIsSubmitting(false);
@@ -150,7 +148,7 @@ const Form: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0E0D0D] flex items-center justify-center text-white px-4">
+    <div className="min-h-screen transition-colors  bg-[#0E0D0D] flex items-center justify-center text-white px-4">
       <div className="w-full max-w-4xl p-8 rounded-lg shadow-lg">
         <div className="text-6xl w-full max-md:text-3xl max-md:mb-5  max-md:items-start max-md:justify-start max-md:m-0 max-md:p-0  font-bold md:mb-6 md:pr-32">
           <span className="text-[#80D3FF] ">Salary </span>{" "}
@@ -168,6 +166,7 @@ const Form: React.FC = () => {
               <button
                 key={option}
                 type="button"
+                disabled={isSubmitting}
                 onClick={() => {
                   // Toggle the jobTitle in the form data and set the selected option
                   const newJobTitle = selected === option ? null : option;
@@ -177,9 +176,9 @@ const Form: React.FC = () => {
                     jobTitle: newJobTitle, // Update jobTitle directly based on new selected option
                   }));
                 }}
-                className={`hover:bg-[#80D3FF] ${
+                className={` hover:bg-[#80D3FF] ${
                   formData.jobTitle === option
-                    ? "bg-[#80D3FF] border border-[#80D3FF]"
+                    ? "disabled:bg-[#c8e5f5] bg-[#80D3FF] border border-[#80D3FF]"
                     : "border border-white bg-transparent "
                 } py-2 px-2 rounded-3xl transition`}
               >
@@ -192,13 +191,14 @@ const Form: React.FC = () => {
               <div key={index} className="relative mb-6">
                 <input
                   required
+                  disabled={isSubmitting}
                   type={field.type}
                   name={field.name}
                   value={formData[field.name as keyof FormData] || ""}
                   onFocus={() => handleFocus(field.name)}
                   onBlur={(e) => handleBlur(field.name, e.target.value)}
                   onChange={handleChange}
-                  className="w-full bg-[#0E0D0D] rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition"
+                  className="w-full disabled:text-[#80D3FF]  bg-[#0E0D0D] rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition"
                 />
                 <label
                   className={`absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
@@ -216,13 +216,14 @@ const Form: React.FC = () => {
           <div className="mb-6 flex relative w-full flex-row-reverse gap-5 justify-end">
             <input
               required
+              disabled={isSubmitting}
               type="text"
               name="cv"
               value={formData["cv"] || ""}
               onFocus={() => handleFocus("cv")}
               onBlur={(e) => handleBlur("cv", e.target.value)}
               onChange={handleChange}
-              className={`w-full bg-[#0E0D0D] rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition`}
+              className={`w-full bg-[#0E0D0D] disabled:text-[#80D3FF] rounded-none text-white py-3 px-2 outline-none border border-t-0 border-l-0 border-r-0 border-[#80D3FF] transition`}
             />
             <label
               className={`absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-200 ${
@@ -237,21 +238,25 @@ const Form: React.FC = () => {
 
           <div className="mb-6">
             <textarea
+              disabled={isSubmitting}
               placeholder="Tell Us About Your Experience!"
               name="aboutExperience"
               rows={4}
               value={formData.aboutExperience}
               onChange={handleChange}
-              className="w-full bg-[#0E0D0D] border-b-[#80D3FF] text-white py-3 px-4 rounded-md outline-none border border-transparent focus:border-[#80D3FF] transition"
+              className="w-full bg-[#0E0D0D] disabled:text-[#80D3FF] border-b-[#80D3FF] text-white py-3 px-4 rounded-md outline-none border border-transparent focus:border-[#80D3FF] transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full disabled:bg-[#aedbf3] disabled:opacity-75 hover:border-white hover:border hover:bg-transparent bg-[#80D3FF] py-3 rounded-xl text-white font-semibold hover:bg-[#80D3FF] transition"
+            className="w-full flex justify-center items-center transition-all gap-5 disabled:bg-[#d0e9f7] disabled:opacity-75 hover:border-white hover:border hover:bg-transparent bg-[#80D3FF] py-3 rounded-xl text-white font-semibold hover:bg-[#80D3FF] "
           >
-            SUBMIT
+            SUBMIT{" "}
+            {isSubmitting && (
+              <span className="animate-spin inline-block w-5 h-5  border-4 border-t-transparent border-white rounded-full"></span>
+            )}
           </button>
         </form>
         <Modal isOpen={isModalOpen} onClose={handleModalClose} />
