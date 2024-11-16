@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Modal from "./Modal";
-
+import { useRouter } from "next/navigation";
 type FocusedFields = {
   [key: string]: boolean;
 };
@@ -17,7 +17,6 @@ type FormData = {
   playlist: string;
   favComic: string;
 };
-
 const formFields = [
   { type: "text", name: "fullName", label: "Full Name" },
   { type: "email", name: "email", label: "Email" },
@@ -28,6 +27,8 @@ const formFields = [
 ];
 
 const Form: React.FC = () => {
+  const Router = useRouter();
+
   const [focused, setFocused] = useState<FocusedFields>({});
   const [selected, setSelected] = useState<string | null>(null);
   const [fieldsRequired, setFieldsRequired] = useState<boolean>(false);
@@ -133,6 +134,7 @@ const Form: React.FC = () => {
             favComic: "",
           });
         } else {
+          setIsModalOpen(true);
           alert("Failed to submit form. Please try again.");
           setIsSubmitting(false);
         }
@@ -145,6 +147,7 @@ const Form: React.FC = () => {
   };
   const handleModalClose = () => {
     setIsModalOpen(false);
+    Router.push("https://youtu.be/xvFZjo5PgG0?si=h9qItXjsVyKBb6fK");
   };
 
   return (
@@ -153,7 +156,7 @@ const Form: React.FC = () => {
         <div className="text-6xl w-full max-md:text-3xl max-md:mb-5  max-md:items-start max-md:justify-start max-md:m-0 max-md:p-0  font-bold md:mb-6 md:pr-32">
           <span className="text-[#80D3FF] ">Salary </span>{" "}
           <span>kitni loge usse pehele</span>
-          <span className="text-[#80D3FF]"> CV</span> <span>dekhle?</span>
+          <span className="text-[#80D3FF]"> CV</span> <span>dekh lein?</span>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-4 md:grid max-md:grid-cols-2 justify-between gap-10 mb-6">

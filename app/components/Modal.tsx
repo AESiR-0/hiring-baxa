@@ -1,5 +1,5 @@
 import React from "react";
-
+import Link from "next/link";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -14,19 +14,29 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg p-6 w-96 shadow-lg"
+        className="bg-white w-1/2 flex flex-col gap-5 items-center justify-center rounded-lg p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-semibold text-center text-black mb-4">Success!</h2>
-        <p className="text-center mb-4">
-          Your form has been successfully submitted.
-        </p>
+        <h2 className="text-3xl font-semibold text-center text-black mb-4">
+          Submit ho gaya hai, <br /> ab{" "}
+          <span className="text-[#80D3FF]"> sabar </span> rakho
+        </h2>
+        <video
+          src={"/videos/modal/Success.mp4"}
+          width={600}
+          height={300}
+          loop
+          autoPlay
+          controls={false}
+        />
         <div className="flex justify-center">
           <button
             onClick={onClose}
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            className="bg-[#80D3FF] text-white px-6 py-2 rounded-lg hover:bg-[#d4edfa] transition-colors"
           >
-            Close
+            <Link href={"https://youtu.be/xvFZjo5PgG0?si=h9qItXjsVyKBb6fK"}>
+              Click to Close!
+            </Link>
           </button>
         </div>
       </div>
