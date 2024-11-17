@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             className="bg-[#80D3FF] text-white px-6 py-2 rounded-lg hover:bg-[#d4edfa] transition-colors"
           >
             <Link href={"https://youtu.be/xvFZjo5PgG0?si=h9qItXjsVyKBb6fK"}>
-              Click to Close!
+              Close
             </Link>
           </button>
         </div>
