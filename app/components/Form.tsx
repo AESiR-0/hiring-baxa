@@ -159,12 +159,13 @@ const Form: React.FC = () => {
           <span className="text-[#80D3FF]"> CV</span> <span>dekh lein?</span>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-4 md:grid max-md:grid-cols-2 justify-between gap-10 mb-6">
+          <div className="grid grid-cols-3 md:grid max-md:grid-cols-2 justify-between gap-10 mb-6">
             {[
               "Front-end Developer",
               "Sales and BD Intern",
               "Content Writer",
               "UI Intern",
+              "Videographer"
             ].map((option) => (
               <button
                 key={option}
