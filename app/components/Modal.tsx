@@ -29,13 +29,26 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           autoPlay
           controls={false}
         />
-        <div className="flex justify-center">
+        <div className=" absolute top-10 right-10 flex justify-center">
           <button
             onClick={onClose}
             className="bg-[#80D3FF] text-white px-6 py-2 rounded-lg hover:bg-[#d4edfa] transition-colors"
           >
             <Link href={"https://youtu.be/xvFZjo5PgG0?si=h9qItXjsVyKBb6fK"}>
-              Close
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
             </Link>
           </button>
         </div>
