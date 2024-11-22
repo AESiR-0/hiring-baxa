@@ -22,7 +22,7 @@ const formFields = [
   { type: "email", name: "email", label: "Email" },
   { type: "tel", name: "phoneNumber", label: "Whatsapp Number" },
   { type: "number", name: "experience", label: "Years of Experience" },
-  { type: "text", name: "playlist", label: "Playlist Link" },
+  { type: "text", name: "playlist", label: "Song Playlist Link" },
   { type: "text", name: "favComic", label: "Favourite Standup Comic" },
 ];
 
@@ -165,7 +165,8 @@ const Form: React.FC = () => {
               "Sales and BD Intern",
               "Content Writer",
               "UI Intern",
-              "Videographer"
+              "Videographer",
+              "Video Editor",
             ].map((option) => (
               <button
                 key={option}
